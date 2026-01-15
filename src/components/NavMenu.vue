@@ -11,9 +11,7 @@ const menuItems = MenuList as Item[];
 </script>
 
 <template>
-  <ul
-    class="flex items-center space-x-4 hidden lg:flex font-[Sour_Gummy] text-lg"
-  >
+  <ul class="items-center space-x-4 hidden lg:flex font-[Sour_Gummy] text-lg">
     <li v-for="menuItem in menuItems" :key="menuItem.name">
       <a
         :href="menuItem.path"
