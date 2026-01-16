@@ -15,9 +15,21 @@
     "isBlank": true
   },
   {
-    "name": "Croffle Dev.",
-    "path": "https://github.com/Team-Croffle/",
-    "isBlank": true
+    "name": "Teams",
+    "path": "",
+    "isBlank": false,
+    "children": [
+      {
+        "name": "Croffle Dev.",
+        "path": "https://github.com/team-croffle/",
+        "isBlank": true
+      },
+      {
+        "name": "Gamesung Coding",
+        "path": "https://github.com/gscd-dev/",
+        "isBlank": true
+      }
+    ]
   },
   {
     "name": "Downloads",
