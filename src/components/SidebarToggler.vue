@@ -9,7 +9,7 @@ const { toggleSidebar }: SidebarToggle = useSidebar();
     @click="toggleSidebar"
     type="button"
     id="sidebarToggler"
-    class="lg:hidden -m-2.5 inline-flex items-center justify-center rounded-full p-2.5 text-gray-700 dark:text-gray-300 focus:outline-none hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors duration-200"
+    class="-m-2.5 inline-flex items-center justify-center rounded-full p-2.5 text-gray-700 transition-colors duration-200 hover:bg-gray-200 focus:outline-none lg:hidden dark:text-gray-300 dark:hover:bg-gray-700"
   >
     <span class="sr-only">Toggle Sidebar</span>
     <svg

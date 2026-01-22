@@ -143,10 +143,10 @@ document.addEventListener('mousemove', handleMouseMove);
 
 <template>
   <div
-    class="flex relative w-4/5 mx-auto pt-16 justify-center items-center"
+    class="relative mx-auto flex w-4/5 items-center justify-center pt-16"
     ref="ImgContainer"
   >
-    <div class="flex relative bg-white w-fit">
+    <div class="relative flex w-fit bg-white">
       <img
         :src="BlueNyang"
         ref="bluenyangImg"

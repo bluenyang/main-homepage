@@ -7,20 +7,20 @@ import ThemeToggler from './ThemeToggler.vue';
 <template>
   <nav
     id="navbar"
-    class="fixed flex items-center justify-between w-full z-1000"
+    class="fixed z-1000 flex w-full items-center justify-between"
   >
     <div
-      class="flex items-center justify-between w-4/5 h-16 mx-auto bg-white shadow-lg dark:bg-gray-800 transition-colors duration-500"
+      class="mx-auto flex h-16 w-4/5 items-center justify-between bg-white shadow-lg transition-colors duration-500 dark:bg-gray-800"
     >
       <!-- Left Side: Offcanvas Button and logo -->
-      <div class="flex items-center gap-x-4 ml-4">
+      <div class="ml-4 flex items-center gap-x-4">
         <SidebarToggler />
         <div
-          class="flex lg:flex-1 py-5 hover:scale-105 transition-transform duration-500"
+          class="flex py-5 transition-transform duration-500 hover:scale-105 lg:flex-1"
         >
           <a href="/" class="-m-1.5 p-1.5">
             <span
-              class="text-2xl font-[Pacifico] font-bold text-black dark:text-white hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-500"
+              class="font-[Pacifico] text-2xl font-bold text-black transition-colors duration-500 hover:text-sky-600 dark:text-white dark:hover:text-sky-400"
             >
               BlueNyang
             </span>
