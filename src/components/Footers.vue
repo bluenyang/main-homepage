@@ -18,7 +18,7 @@
       </div>
       <div class="flex h-full flex-1 flex-row items-center justify-evenly">
         <a
-          href="https://github.com/BlueNyang"
+          href="https://github.com/bluenyang"
           target="_blank"
           rel="noreferrer"
           class="flex h-fit items-center justify-center"

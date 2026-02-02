@@ -15,10 +15,15 @@
     "isBlank": true
   },
   {
-    "name": "Teams",
+    "name": "GitHub",
     "path": "",
     "isBlank": false,
     "children": [
+      {
+        "name": "Bluenyang",
+        "path": "https://github.com/bluenyang/",
+        "isBlank": true
+      },
       {
         "name": "Croffle Dev.",
         "path": "https://github.com/team-croffle/",
