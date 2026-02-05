@@ -82,7 +82,7 @@ const toggleMenu = (name: string) => {
             <button
               type="button"
               @click="toggleMenu(menuItem.name)"
-              class="block w-full px-4 py-5 font-medium text-gray-700 transition-colors hover:text-sky-600 dark:text-gray-300"
+              class="block w-full px-4 py-5 font-medium text-gray-700 transition-colors duration-300 hover:text-sky-600 dark:text-gray-300"
             >
               {{ menuItem.name }}
             </button>

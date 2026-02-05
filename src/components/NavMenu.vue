@@ -25,7 +25,7 @@ const menuItems = MenuList as Item[];
       <a
         v-else
         href="#"
-        class="group relative block px-4 py-5 font-medium text-gray-700 dark:text-gray-300"
+        class="group relative block px-4 py-5 font-medium text-gray-700 transition-colors duration-300 dark:text-gray-300"
       >
         {{ menuItem.name }}
         <ul
