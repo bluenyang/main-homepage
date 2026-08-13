@@ -39,13 +39,13 @@
 
 <template>
   <div
-    class="bg-overlay fixed inset-0 z-[60] transition-opacity duration-300 lg:hidden"
+    class="bg-overlay fixed inset-0 z-60 transition-opacity duration-300 lg:hidden"
     :class="isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'"
     @click="closeSidebar"
   ></div>
   <div
     id="sidebar-panel"
-    class="border-border bg-surface fixed inset-y-0 left-0 z-[60] h-screen w-full max-w-sm overflow-y-auto border-r p-6 transition-transform duration-300 ease-in-out lg:hidden"
+    class="border-border bg-surface fixed inset-y-0 left-0 z-60 h-screen w-full max-w-sm overflow-y-auto border-r p-6 transition-transform duration-300 ease-in-out lg:hidden"
     :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     role="dialog"
     aria-modal="true"

@@ -12,7 +12,12 @@ export type ProjectItem = {
   id: string;
   title: string;
   role: string;
-  summary: string;
+  /** Card one-liner */
+  teaser: string;
+  techStack: readonly string[];
+  features: readonly string[];
+  challenges: readonly string[];
+  learnings: readonly string[];
   links: readonly AboutLink[];
   badge?: string;
 };
@@ -102,9 +107,39 @@ export const aboutProjects = [
   {
     id: 'a11ymarket',
     title: 'A11yMARKET',
-    role: '팀장 · 개발 리드 · Spring Boot',
-    summary:
-      '접근성 중심 중개 쇼핑몰. Spring Boot로 도메인·인증(JWT/OAuth)·인프라를 설계하고, 상품 이미지 LLM 분석으로 스크린리더 접근성을 보완했습니다. PR마다 actions-runner QA를 자동화하고, Jenkins 분리 배포를 GitHub Actions·Docker로 통합했습니다. 멀티캠퍼스 프로젝트 최우수. Java→Kotlin·JDSL 진행 중.',
+    role: '팀장 · 개발 리드 · 4인 · 2025.10–2025.12',
+    teaser: '웹 접근성·AI로 정보 격차를 줄이는 중개 쇼핑몰 · 멀티캠퍼스 최우수',
+    techStack: [
+      'Spring Boot (Java/Kotlin)',
+      'JPA',
+      'JDSL',
+      'React',
+      'Zustand',
+      'TanStack Query',
+      'OracleDB/PostgreSQL',
+      'Redis',
+      'S3',
+      'OAuth2/JWT',
+      'Docker',
+      'GitHub Actions',
+    ],
+    features: [
+      '도메인별 패키지·계층형 Spring 서버와 REST(URI 버저닝)·DTO/Mapper 격리',
+      '관리자 API/UI, JWT·OAuth2 Filter/Advice·에러 핸들링',
+      '상품 이미지 LLM 요약으로 스크린리더용 텍스트 접근성 보완',
+      '접근성 UI(고대비·하이라이트 등)를 a11y-engine 라이브러리로 분리',
+      'PR마다 actions-runner QA 컨테이너·DNS로 검증 자동화',
+    ],
+    challenges: [
+      '이미지 중심 상품 설명 → LLM 분석 API/UI로 시각 정보 소외 완화',
+      'PR마다 수동 QA → self-hosted Actions runner로 리뷰·검증 자동화',
+      'Git과 분리된 Jenkins 배포 → GitHub Actions·Docker로 CI/CD 통합·스토리지 네트워크 분리',
+    ],
+    learnings: [
+      'fetch join / EntityGraph로 N+1을 줄이고, Kotlin·JDSL로 동적 쿼리·널 안정성 개선 중',
+      'RDB·Redis·오브젝트 스토리지를 역할별로 나누는 인프라 설계',
+      '멀티캠퍼스 Java 풀스택 아카데미 과정 프로젝트 최우수(2025.12)',
+    ],
     links: [
       { label: 'Server', href: 'https://github.com/gscd-dev/a11y-market-server' },
       { label: 'Web', href: 'https://github.com/gscd-dev/a11y-market-web' },
@@ -116,9 +151,37 @@ export const aboutProjects = [
   {
     id: 'croffle',
     title: 'croffle',
-    role: '메인 프로세스 · 확장 · 배포 리드',
-    summary:
-      '확장 가능한 Electron·Vue 생산성/일정 데스크톱 앱. WinUI 한계를 Electron 재작성으로 풀어 크로스플랫폼과 electron-updater CI를 구축했고, manifest 기반 확장으로 프레임워크 비의존 플러그인을 설계했습니다. Release 6+, 팀 실사용, @croffledev/* npm.',
+    role: '팀장 · 아키텍트 · 메인 프로세스 리드 · 5인',
+    teaser: '확장 가능한 Electron 생산성/일정 앱 · Release 6+ · 팀 실사용',
+    techStack: [
+      'Electron',
+      'Vue',
+      'TypeScript',
+      'sqlite3',
+      'Drizzle',
+      'Pinia',
+      'Tailwind CSS',
+      'shadcn-vue',
+      'pnpm monorepo',
+      'electron-updater',
+      'changeset',
+    ],
+    features: [
+      '메인/렌더러 타입 공유 IPC·Preload, OS 알림·HTTP 래핑 API',
+      'sqlite3 + Drizzle 로컬 DB와 확장용 이벤트 버스·리마인더 스케줄러',
+      'manifest 기반 확장: Vue 외 JS/React/Svelte 화면 플러그인 가능',
+      'GitHub Release·zip으로 확장 설치, electron-updater CI 배포',
+      '@croffledev/* 확장 CLI·types npm 배포',
+    ],
+    challenges: [
+      'WinUI 불안정·Linux 미지원 → Electron 재작성으로 Windows/macOS/Linux 지원',
+      '확장 스택이 Vue로 고정 → manifest로 렌더 엔드포인트·설정을 분리해 프레임워크 비의존',
+    ],
+    learnings: [
+      '프로세스 내 enum 이벤트 버스로 모듈 간 결합도를 낮추는 설계',
+      '플러그인이 메뉴·설정 영역을 할당받아 독립적으로 UI를 제어하는 구조',
+      'Release 6+, 팀 실사용·협업 툴 통합을 목표로 유지보수 중',
+    ],
     links: [
       { label: 'Repo', href: 'https://github.com/team-croffle/croffle' },
       { label: 'Releases', href: 'https://github.com/team-croffle/croffle/releases' },
@@ -131,20 +194,62 @@ export const aboutProjects = [
   {
     id: 'my-blog',
     title: 'my-blog',
-    role: 'Nuxt 4 SSR · Nitro BFF · Directus',
-    summary:
-      'blog.bluenyang.kr 운영. GraphQL로 페이지당 CMS 호출을 줄이고, Edge SSR 본문 미포함을 useRequestFetch·slug 정규화로 해결해 GSC 색인을 정상화했습니다. 멀티 사이트 스키마·공유 패키지/CLI를 npm 배포. 티스토리 이전 포함 포스트 48편.',
+    role: 'Solo · Nuxt 4 SSR · Nitro BFF · 2026.07–현재',
+    teaser: 'blog.bluenyang.kr · Directus GraphQL + Netlify Edge 운영 블로그',
+    techStack: [
+      'Nuxt 4',
+      'Vue 3',
+      'Nitro BFF',
+      'Directus GraphQL',
+      'Tailwind CSS v4',
+      'Redis',
+      'Netlify Edge',
+      'Yarn Berry',
+    ],
+    features: [
+      '브라우저/SSR → composables → Nitro `/api/*` → Directus GraphQL BFF',
+      '페이지별 GraphQL 쿼리로 CMS 호출을 최초 2회·이후 1회로 축소',
+      'RSS·sitemap·slug 생성(directus-extensions)과 Redis 캐시 무효화',
+      '멀티 사이트용 스키마·권한·공유 Nuxt 패키지/CLI npm 배포',
+    ],
+    challenges: [
+      'Tistory·정적 md 빌드 한계 → Nuxt SSR + Directus로 이전, 구 URL 리다이렉트로 유입 유지',
+      '멀티 블로그 CMS 통합 → 스키마·권한·트리거로 서비스 간 콘텐츠 격리',
+      'Edge SSR에서 본문 미포함 → useRequestFetch·slug 정규화로 GSC 색인 정상화',
+    ],
+    learnings: [
+      'BFF에서 쿼리 빌드·데이터 가공을 맡아 프론트 composable을 단순화',
+      '공개 콘텐츠는 OIDC 없이, 관리 대시보드에서 CMS를 연동하는 운영 분리',
+      '티스토리 이전 포함 포스트 48편 운영 중',
+    ],
     links: [
       { label: 'Live', href: 'https://blog.bluenyang.kr' },
       { label: 'Repo', href: 'https://github.com/bluenyang/my-blog' },
+      {
+        label: 'Directus ext.',
+        href: 'https://github.com/bluenyang/directus-extensions',
+      },
     ],
   },
   {
     id: 'porg',
     title: 'porg',
-    role: 'Go · PostgreSQL wire protocol',
-    summary:
-      'PostgreSQL wire protocol 호환을 목표로 하는 실험용 DBMS. 클라이언트가 말하는 FE/BE 계약을 직접 구현하는 것이 목적입니다. 현재 StartupMessage 파싱·접속 파라미터 확인 단계이며, Auth/ReadyForQuery → 인메모리 → 영속성 → 타입/SQL 호환으로 확장할 예정입니다.',
+    role: 'Solo · Go · 2026.06–현재',
+    teaser: 'PostgreSQL wire protocol부터 구현하는 실험용 DBMS',
+    techStack: ['Go 1.26+', 'PostgreSQL FE/BE wire protocol', 'TCP :5432'],
+    features: [
+      '완성된 Postgres 대신 FE/BE 계약을 직접 구현하는 학습·실험용 엔진',
+      'cmd/porg 진입점과 internal/wire 프로토콜 계층 분리',
+      '로드맵: Wire → 인메모리 → 영속성 → 타입/SQL 호환',
+    ],
+    challenges: [
+      '클라이언트가 기대하는 Startup 핸드셰이크를 모름 → StartupMessage 파싱으로 user/database 확인',
+    ],
+    learnings: [
+      'SQL/스토리지보다 wire protocol을 먼저 두면 기존 클라이언트와 같은 계약으로 붙일 수 있음',
+      '단계마다 “쓸 수 있는 상태”를 정의하는 로드맵이 실험 범위를 통제함',
+      '다음 마일스톤: AuthenticationOk · ReadyForQuery',
+    ],
     links: [{ label: 'Repo', href: 'https://github.com/bluenyang/porg' }],
     badge: '진행 중',
   },
