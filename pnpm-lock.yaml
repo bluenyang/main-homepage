@@ -21,6 +21,9 @@ importers:
         specifier: ^4.5.1
         version: 4.6.4(vue@3.5.41(typescript@5.8.3))
     devDependencies:
+      '@iconify-json/akar-icons':
+        specifier: ^1.2.7
+        version: 1.2.7
       '@iconify-json/devicon':
         specifier: ^1.2.62
         version: 1.2.62
@@ -235,6 +238,9 @@ packages:
     engines: {node: '>=18'}
     cpu: [x64]
     os: [win32]
+
+  '@iconify-json/akar-icons@1.2.7':
+    resolution: {integrity: sha512-cw44dCnZgGhm6Tywxm0WALAnDB9AyGkDk7kiLMo2B/Ayt7duZu/uyrsqb55weWUN8Ge2sQAOl8MRtT6bFcLzPg==}
 
   '@iconify-json/devicon@1.2.62':
     resolution: {integrity: sha512-X0o0+fOJL2t5JTbDCGLRzrmvf8Pv5q8dr86+fW+F/VJ9qvXTtny6lqGIwjE9AY4VTLm3i8f/N+VtRheSW6OkEg==}
@@ -1212,6 +1218,10 @@ snapshots:
 
   '@esbuild/win32-x64@0.28.2':
     optional: true
+
+  '@iconify-json/akar-icons@1.2.7':
+    dependencies:
+      '@iconify/types': 2.0.0
 
   '@iconify-json/devicon@1.2.62':
     dependencies:
