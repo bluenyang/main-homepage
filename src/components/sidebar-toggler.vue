@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { useSidebar, type SidebarToggle } from '@/stores/use-sidebar';
+  import { useSidebar, type SidebarToggle } from '@/stores/use-sidebar';
 
-const { toggleSidebar }: SidebarToggle = useSidebar();
+  const { toggleSidebar }: SidebarToggle = useSidebar();
 </script>
 
 <template>

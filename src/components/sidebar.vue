@@ -1,27 +1,27 @@
 <script setup lang="ts">
-import menuList from '@/data/menu-item.json';
-import { useSidebar, type SidebarToggle } from '@/stores/use-sidebar';
-import { ref } from 'vue';
+  import menuList from '@/data/menu-item.json';
+  import { useSidebar, type SidebarToggle } from '@/stores/use-sidebar';
+  import { ref } from 'vue';
 
-type Item = {
-  name: string;
-  path: string;
-  isBlank: boolean;
-  children?: Item[];
-};
+  type Item = {
+    name: string;
+    path: string;
+    isBlank: boolean;
+    children?: Item[];
+  };
 
-const { isOpen, toggleSidebar }: SidebarToggle = useSidebar();
-const openedMenu = ref<string | null>(null);
+  const { isOpen, toggleSidebar }: SidebarToggle = useSidebar();
+  const openedMenu = ref<string | null>(null);
 
-const menuItems = menuList as Item[];
+  const menuItems = menuList as Item[];
 
-const toggleMenu = (name: string) => {
-  if (openedMenu.value === name) {
-    openedMenu.value = null;
-  } else {
-    openedMenu.value = name;
-  }
-};
+  const toggleMenu = (name: string) => {
+    if (openedMenu.value === name) {
+      openedMenu.value = null;
+    } else {
+      openedMenu.value = name;
+    }
+  };
 </script>
 
 <template>
@@ -62,14 +62,8 @@ const toggleMenu = (name: string) => {
       </button>
     </div>
     <div class="flex grow">
-      <ul
-        class="flex w-full flex-col items-center space-y-4 font-[Sour_Gummy] text-lg"
-      >
-        <li
-          v-for="menuItem in menuItems"
-          :key="menuItem.name"
-          class="w-full text-center"
-        >
+      <ul class="flex w-full flex-col items-center space-y-4 font-[Sour_Gummy] text-lg">
+        <li v-for="menuItem in menuItems" :key="menuItem.name" class="w-full text-center">
           <a
             v-if="menuItem.children === undefined"
             :href="menuItem.path"

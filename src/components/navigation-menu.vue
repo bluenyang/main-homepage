@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import MenuList from '@/data/Menu.json';
+  import rawMenuList from '@/data/menu-item.json';
 
-type Item = {
-  name: string;
-  path: string;
-  isBlank: boolean;
-  children?: Item[];
-};
+  type Item = {
+    name: string;
+    path: string;
+    isBlank: boolean;
+    children?: Item[];
+  };
 
-const menuItems = MenuList as Item[];
+  const menuItems = rawMenuList as Item[];
 </script>
 
 <template>

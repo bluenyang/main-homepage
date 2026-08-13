@@ -17,9 +17,7 @@ export function useDarkMode(): DarkMode {
   if (storedDarkMode !== null) {
     isDarkMode.value = storedDarkMode === 'true';
   } else {
-    isDarkMode.value = window.matchMedia(
-      '(prefers-color-scheme: dark)',
-    ).matches;
+    isDarkMode.value = window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
 
   watchEffect((): void => {
