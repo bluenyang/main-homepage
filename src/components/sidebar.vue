@@ -1,9 +1,13 @@
 <script setup lang="ts">
+  import { aboutSections, type AboutSectionId } from '@/data/about-content';
   import { isMenuGroup, menuItems } from '@/data/menu-item';
   import { useSidebar } from '@/stores/use-sidebar';
   import { Icon } from '@iconify/vue';
-  import { onUnmounted, ref, watch } from 'vue';
+  import { computed, onUnmounted, ref, watch } from 'vue';
+  import { useRoute } from 'vue-router';
 
+  const route = useRoute();
+  const isAboutPage = computed(() => route.name === 'About');
   const { isOpen, closeSidebar } = useSidebar();
   const openedMenu = ref<string | null>(null);
 
@@ -13,6 +17,13 @@
   const toggleMenu = (name: string): void => {
     openedMenu.value = openedMenu.value === name ? null : name;
   };
+
+  function scrollToSection(id: AboutSectionId): void {
+    closeSidebar();
+    requestAnimationFrame(() => {
+      document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
 
   watch(isOpen, (open) => {
     document.body.style.overflow = open ? 'hidden' : '';
@@ -28,13 +39,13 @@
 
 <template>
   <div
-    class="bg-overlay fixed inset-0 z-60 transition-opacity duration-300 lg:hidden"
+    class="bg-overlay fixed inset-0 z-[60] transition-opacity duration-300 lg:hidden"
     :class="isOpen ? 'opacity-100' : 'pointer-events-none opacity-0'"
     @click="closeSidebar"
   ></div>
   <div
     id="sidebar-panel"
-    class="border-border bg-surface fixed inset-y-0 left-0 z-60 h-screen w-full max-w-sm overflow-y-auto border-r p-6 transition-transform duration-300 ease-in-out lg:hidden"
+    class="border-border bg-surface fixed inset-y-0 left-0 z-[60] h-screen w-full max-w-sm overflow-y-auto border-r p-6 transition-transform duration-300 ease-in-out lg:hidden"
     :class="isOpen ? 'translate-x-0' : '-translate-x-full'"
     role="dialog"
     aria-modal="true"
@@ -52,7 +63,23 @@
         <Icon icon="lucide:x" class="size-6" />
       </button>
     </div>
-    <ul class="font-nav mt-6 flex w-full flex-col items-center text-lg">
+
+    <div v-if="isAboutPage" class="mt-6">
+      <p class="text-muted px-4 font-sans text-xs tracking-wide uppercase">On this page</p>
+      <ul class="font-nav mt-2 flex w-full flex-col text-lg">
+        <li v-for="section in aboutSections" :key="section.id" class="w-full text-center">
+          <button type="button" :class="itemClass" @click="scrollToSection(section.id)">
+            {{ section.label }}
+          </button>
+        </li>
+      </ul>
+      <div class="border-border my-4 border-t"></div>
+    </div>
+
+    <ul
+      class="font-nav flex w-full flex-col items-center text-lg"
+      :class="isAboutPage ? '' : 'mt-6'"
+    >
       <li v-for="menuItem in menuItems" :key="menuItem.name" class="w-full text-center">
         <template v-if="!isMenuGroup(menuItem)">
           <a

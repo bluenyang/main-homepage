@@ -2,8 +2,12 @@
   import SidebarToggler from './sidebar-toggler.vue';
   import NavigationMenu from './navigation-menu.vue';
   import ThemeToggler from './theme-toggler.vue';
-  import { onMounted, onUnmounted, ref } from 'vue';
+  import AboutSectionNav from './about/about-section-nav.vue';
+  import { computed, onMounted, onUnmounted, ref } from 'vue';
+  import { useRoute } from 'vue-router';
 
+  const route = useRoute();
+  const isAboutPage = computed(() => route.name === 'About');
   const isScrolled = ref(false);
 
   function handleScroll(): void {
@@ -28,21 +32,22 @@
       :class="
         isScrolled
           ? 'border-border/70 bg-surface/70 shadow-lg shadow-black/10'
-          : 'border-white/15 bg-surface/25 shadow-none'
+          : 'bg-surface/25 border-white/15 shadow-none'
       "
     >
-      <div class="flex h-14 items-center justify-between px-4 md:px-6">
-        <div class="flex items-center gap-x-3">
+      <div class="flex h-14 items-center justify-between gap-3 px-4 md:px-6">
+        <div class="flex shrink-0 items-center gap-x-3">
           <SidebarToggler />
           <router-link
             to="/"
-            class="font-display text-2xl text-foreground transition-colors duration-200 hover:text-accent"
+            class="font-display text-foreground hover:text-accent text-2xl transition-colors duration-200"
           >
             BlueNyang
           </router-link>
         </div>
 
-        <NavigationMenu />
+        <AboutSectionNav v-if="isAboutPage" />
+        <NavigationMenu v-else />
         <ThemeToggler />
       </div>
     </nav>
