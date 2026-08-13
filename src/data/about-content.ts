@@ -366,7 +366,7 @@ export const aboutExperiences = [
 ] satisfies readonly ExperienceItem[];
 
 export const aboutContact = {
-  email: 'me@bluenyang.kr',
+  email: 'contact@bluenyang.kr',
   github: 'https://github.com/bluenyang',
   blog: 'https://blog.bluenyang.kr',
   linkedin: 'https://www.linkedin.com/in/gyutae-ahn-35a860366',
