@@ -41,7 +41,7 @@
   <Teleport to="body">
     <div
       v-if="project"
-      class="fixed inset-0 z-[70] flex items-end justify-center p-4 sm:items-center"
+      class="fixed inset-0 z-70 flex items-end justify-center p-4 sm:items-center"
       role="dialog"
       aria-modal="true"
       :aria-labelledby="`project-modal-${project.id}`"

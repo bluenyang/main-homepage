@@ -22,9 +22,19 @@ export type ProjectItem = {
   badge?: string;
 };
 
-export type HomelabContent = {
-  summary: string;
+export type ExperienceItem = {
+  id: string;
+  title: string;
+  org: string;
+  period: string;
+  role: string;
+  teaser: string;
   bullets: readonly string[];
+  links?: readonly AboutLink[];
+  /** Longer summary shown inside the Detail modal */
+  detailSummary?: string;
+  /** Show a Detail button that opens a modal (e.g. architecture diagram) */
+  hasDetailPanel?: boolean;
 };
 
 export type AboutIntro = {
@@ -44,13 +54,13 @@ export type AboutContact = {
   linkedin: string;
 };
 
-export type AboutSectionId = 'intro' | 'skills' | 'projects' | 'homelab' | 'contact';
+export type AboutSectionId = 'intro' | 'skills' | 'projects' | 'experiences' | 'contact';
 
 export const aboutSections = [
   { id: 'intro', label: 'Intro' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
-  { id: 'homelab', label: 'Homelab' },
+  { id: 'experiences', label: 'Experiences' },
   { id: 'contact', label: 'Contact' },
 ] as const satisfies readonly { id: AboutSectionId; label: string }[];
 
@@ -255,16 +265,57 @@ export const aboutProjects = [
   },
 ] satisfies readonly ProjectItem[];
 
-export const aboutHomelab = {
-  summary:
-    "Rocky Linux + Docker로 리버스 프록시·OIDC·통합 DB 기반 self-hosted를 운영합니다. Cloudflare DNS 앞단, Traefik(Let's Encrypt), Authentik SSO, 통합 PostgreSQL·Redis·MinIO, AFFiNE/oCIS/Outline 등 협업 도구와 croffle-poll·Directus(CMS)를 Compose로 묶고, GHCR CI/CD로 앱을 올립니다.",
-  bullets: [
-    '서비스별 DB 분산 → 통합 PostgreSQL · 네트워크 격리로 백업·운영 단순화',
-    '인증 파편화 → Authentik OIDC 통합 · SSO · RBAC',
-    "Let's Encrypt + Traefik으로 TLS 자동 발급·갱신",
-    'GitHub Actions → GHCR → Compose 자동 배포 파이프라인',
-  ],
-} as const satisfies HomelabContent;
+export const aboutExperiences = [
+  {
+    id: 'multicampus',
+    title: 'JAVA 풀스택 개발자 아카데미',
+    org: '멀티캠퍼스 · [현대이지웰]',
+    period: '2025.07 – 2025.12',
+    role: '수료 · A11yMARKET 팀장',
+    teaser: '접근성 중개 쇼핑몰을 팀장으로 수행, 과정 프로젝트 최우수',
+    bullets: [
+      '4인 팀 팀장·개발 리드로 Spring Boot 기반 A11yMARKET 설계·구현',
+      '도메인/인증/CI·CD·QA runner까지 서버·인프라를 주도',
+      '과정 프로젝트 성과 최우수 평가 (2025.12)',
+    ],
+    links: [
+      { label: 'A11yMARKET Server', href: 'https://github.com/gscd-dev/a11y-market-server' },
+      { label: 'Demo', href: 'https://www.youtube.com/watch?v=SUjhHUoBB_Y' },
+    ],
+  },
+  {
+    id: 'croffle-dev',
+    title: 'Croffle Dev.',
+    org: 'Team Croffle',
+    period: '2024.09 – 현재',
+    role: '개발 리드 / 아키텍트',
+    teaser: '확장형 Electron 생산성 앱의 메인 프로세스·배포를 리드',
+    bullets: [
+      '5인 팀에서 croffle 설계·메인 프로세스·확장 로딩·배포 담당',
+      '교내 수상작을 Electron으로 재작성해 크로스플랫폼으로 운영',
+      'Release 6+, @croffledev/* npm, 팀 실사용 유지보수',
+    ],
+    links: [{ label: 'GitHub', href: 'https://github.com/team-croffle' }],
+  },
+  {
+    id: 'homelab',
+    title: 'Homelab',
+    org: 'Self-hosted · Rocky Linux',
+    period: '운영 중',
+    role: '인프라 · 운영',
+    teaser: 'Traefik·OIDC·통합 DB 기반 Docker 홈랩으로 서비스·CI를 운영',
+    detailSummary:
+      "Rocky Linux + Docker로 리버스 프록시·OIDC·통합 DB 기반 self-hosted를 운영합니다. Cloudflare DNS 앞단, Traefik(Let's Encrypt), Authentik SSO, 통합 PostgreSQL·Redis·MinIO, AFFiNE/oCIS/Outline 등 협업 도구와 croffle-poll·Directus(CMS)를 Compose로 묶고, GHCR CI/CD로 앱을 올립니다.",
+    bullets: [
+      '서비스별 DB 분산 → 통합 PostgreSQL · 네트워크 격리로 백업·운영 단순화',
+      '인증 파편화 → Authentik OIDC 통합 · SSO · RBAC',
+      "Let's Encrypt + Traefik으로 TLS 자동 발급·갱신",
+      'GitHub Actions → GHCR → Compose 자동 배포 파이프라인',
+      'AFFiNE / oCIS / Outline / Directus / croffle-poll 등 Compose 운영',
+    ],
+    hasDetailPanel: true,
+  },
+] satisfies readonly ExperienceItem[];
 
 export const aboutContact = {
   email: 'me@bluenyang.kr',

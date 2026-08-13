@@ -2,7 +2,7 @@
   import AboutIntro from '@/components/about/about-intro.vue';
   import AboutSkills from '@/components/about/about-skills.vue';
   import AboutProjects from '@/components/about/about-projects.vue';
-  import AboutHomelab from '@/components/about/about-homelab.vue';
+  import AboutExperiences from '@/components/about/about-experiences.vue';
   import AboutContact from '@/components/about/about-contact.vue';
 </script>
 
@@ -12,7 +12,7 @@
       <AboutIntro />
       <AboutSkills />
       <AboutProjects />
-      <AboutHomelab />
+      <AboutExperiences />
       <AboutContact />
     </div>
   </div>
