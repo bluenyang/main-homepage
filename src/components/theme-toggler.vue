@@ -1,26 +1,26 @@
 <script setup lang="ts">
-  import { useDarkMode, type DarkMode } from '@/stores/user-dark-mode';
+  import { useDarkMode } from '@/stores/use-dark-mode';
   import { Icon } from '@iconify/vue';
 
-  const { toggleDarkMode }: DarkMode = useDarkMode();
+  const { isDarkMode, toggleDarkMode } = useDarkMode();
 </script>
 
 <template>
   <button
-    @click="toggleDarkMode"
     id="theme-toggle-btn"
-    class="relative mr-10 flex h-9 w-9 items-center justify-center rounded-full p-2 transition-all duration-500 hover:scale-110 hover:bg-gray-200 focus:outline-none dark:hover:bg-gray-500"
+    type="button"
+    class="text-foreground hover:bg-border/60 hover:text-accent focus-visible:outline-accent relative flex size-9 items-center justify-center rounded-full transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2"
+    :aria-pressed="isDarkMode"
     aria-label="Toggle dark mode"
+    @click="toggleDarkMode"
   >
-    <!-- Light-mode Icon -->
     <Icon
       icon="akar-icons:sun-fill"
-      class="absolute size-8 text-black transition-all duration-500 ease-in-out dark:scale-0 dark:-rotate-120 dark:opacity-0"
+      class="text-foreground absolute size-5 transition-all duration-300 ease-in-out dark:scale-0 dark:-rotate-90 dark:opacity-0"
     />
-    <!-- DarkMode Icon -->
     <Icon
       icon="akar-icons:moon-fill"
-      class="absolute size-8 scale-0 rotate-90 text-white opacity-0 transition-all duration-500 ease-in-out dark:scale-100 dark:rotate-0 dark:opacity-100"
+      class="text-foreground absolute size-5 scale-0 rotate-90 opacity-0 transition-all duration-300 ease-in-out dark:scale-100 dark:rotate-0 dark:opacity-100"
     />
     <span class="sr-only">Toggle dark mode</span>
   </button>

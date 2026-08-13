@@ -2,32 +2,49 @@
   import SidebarToggler from './sidebar-toggler.vue';
   import NavigationMenu from './navigation-menu.vue';
   import ThemeToggler from './theme-toggler.vue';
+  import { onMounted, onUnmounted, ref } from 'vue';
+
+  const isScrolled = ref(false);
+
+  function handleScroll(): void {
+    isScrolled.value = window.scrollY > 8;
+  }
+
+  onMounted(() => {
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+  });
+
+  onUnmounted(() => {
+    window.removeEventListener('scroll', handleScroll);
+  });
 </script>
 
 <template>
-  <nav id="navbar" class="fixed z-1000 flex w-full items-center justify-between">
-    <div
-      class="mx-auto flex h-16 w-4/5 items-center justify-between bg-white shadow-lg transition-colors duration-500 dark:bg-gray-800"
+  <div class="fixed inset-x-0 top-0 z-50 flex justify-center px-4 pt-4 md:px-6">
+    <nav
+      id="navbar"
+      class="w-full max-w-6xl rounded-2xl border backdrop-blur-xl backdrop-saturate-150 transition-all duration-300"
+      :class="
+        isScrolled
+          ? 'border-border/70 bg-surface/70 shadow-lg shadow-black/10'
+          : 'border-white/15 bg-surface/25 shadow-none'
+      "
     >
-      <!-- Left Side: Offcanvas Button and logo -->
-      <div class="ml-4 flex items-center gap-x-4">
-        <SidebarToggler />
-        <div class="flex py-5 transition-transform duration-500 hover:scale-105 lg:flex-1">
-          <a href="/" class="-m-1.5 p-1.5">
-            <span
-              class="font-[Pacifico] text-2xl font-bold text-black transition-colors duration-500 hover:text-sky-600 dark:text-white dark:hover:text-sky-400"
-            >
-              BlueNyang
-            </span>
-          </a>
+      <div class="flex h-14 items-center justify-between px-4 md:px-6">
+        <div class="flex items-center gap-x-3">
+          <SidebarToggler />
+          <router-link
+            to="/"
+            class="font-display text-2xl text-foreground transition-colors duration-200 hover:text-accent"
+          >
+            BlueNyang
+          </router-link>
         </div>
+
+        <NavigationMenu />
+        <ThemeToggler />
       </div>
-
-      <!-- Center: Menu -->
-      <NavigationMenu />
-
-      <!-- Right Side: ThemeToggler -->
-      <ThemeToggler />
-    </div>
-  </nav>
+    </nav>
+  </div>
 </template>

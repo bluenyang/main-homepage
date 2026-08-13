@@ -1,51 +1,46 @@
 <script setup lang="ts">
-  import rawMenuList from '@/data/menu-item.json';
+  import { isMenuGroup, menuItems } from '@/data/menu-item';
 
-  type Item = {
-    name: string;
-    path: string;
-    isBlank: boolean;
-    children?: Item[];
-  };
-
-  const menuItems = rawMenuList as Item[];
+  const itemClass =
+    'block px-3 py-2 font-medium text-foreground/80 transition-colors duration-200 hover:text-accent aria-[current=page]:text-accent';
 </script>
 
 <template>
-  <ul class="hidden items-center space-x-4 font-[Sour_Gummy] text-lg lg:flex">
+  <ul class="font-nav hidden items-center gap-x-1 text-lg lg:flex">
     <li v-for="menuItem in menuItems" :key="menuItem.name">
-      <a
-        v-if="menuItem.children === undefined"
-        :href="menuItem.path"
-        :target="menuItem.isBlank ? '_blank' : '_self'"
-        class="block px-4 py-5 font-medium text-gray-700 transition-all duration-300 hover:-translate-y-1 hover:text-sky-600 dark:text-gray-300 dark:hover:text-sky-400"
-      >
-        {{ menuItem.name }}
-      </a>
-      <a
-        v-else
-        href="#"
-        class="group relative block px-4 py-5 font-medium text-gray-700 transition-colors duration-300 dark:text-gray-300"
-      >
-        {{ menuItem.name }}
-        <ul
-          class="absolute -left-2/3 z-10 mt-2 w-50 rounded-md border border-gray-200 bg-white opacity-0 shadow-lg transition-opacity duration-300 group-hover:opacity-100 dark:border-gray-700 dark:bg-gray-800"
+      <template v-if="!isMenuGroup(menuItem)">
+        <a
+          v-if="menuItem.external"
+          :href="menuItem.href"
+          target="_blank"
+          rel="noreferrer"
+          :class="itemClass"
         >
-          <li
-            v-for="child in menuItem.children"
-            :key="child.name"
-            class="border-b border-gray-200 last:border-0 dark:border-gray-700"
-          >
+          {{ menuItem.name }}
+        </a>
+        <router-link v-else :to="menuItem.href" :class="itemClass">
+          {{ menuItem.name }}
+        </router-link>
+      </template>
+      <div v-else class="group relative">
+        <button type="button" :class="itemClass">
+          {{ menuItem.name }}
+        </button>
+        <ul
+          class="border-border bg-surface pointer-events-none invisible absolute top-full left-1/2 z-10 mt-1 w-48 -translate-x-1/2 rounded-lg border py-1 opacity-0 transition-opacity duration-200 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100"
+        >
+          <li v-for="child in menuItem.children" :key="child.name">
             <a
-              :href="child.path"
-              :target="child.isBlank ? '_blank' : '_self'"
-              class="block px-4 py-2 text-center font-medium transition-all duration-300 hover:-translate-y-1 hover:text-sky-600 dark:text-gray-300 dark:hover:text-sky-400"
+              :href="child.href"
+              target="_blank"
+              rel="noreferrer"
+              class="text-foreground/80 hover:text-accent block px-4 py-2 text-center font-medium transition-colors duration-200"
             >
               {{ child.name }}
             </a>
           </li>
         </ul>
-      </a>
+      </div>
     </li>
   </ul>
 </template>
