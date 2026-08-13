@@ -2,178 +2,163 @@
   import BlueNyang from '@/assets/BlueNyang.png';
   import LeftEye from '@/assets/BlueNyang-Eyes-Left.png';
   import RightEye from '@/assets/BlueNyang-Eyes-Right.png';
-  import { ref, onMounted, onUnmounted, type Ref } from 'vue';
+  import { onMounted, onUnmounted, ref } from 'vue';
 
-  const bluenyangImg = ref<HTMLElement | null>(null);
-  const ImgContainer = ref<HTMLElement | null>(null);
+  const ORIGIN_WIDTH = 1200;
+  const ORIGIN_HEIGHT = 650;
+  const LEFT_STD = { x: 449, y: 295 };
+  const RIGHT_STD = { x: 555, y: 292 };
 
-  const ORIGIN_WIDTH: number = 1200;
-  const ORIGIN_HEIGHT: number = 650;
+  // 눈 소켓 위치를 이미지의 가로/세로 비율로 각각 환산 (원본 대비 초기 위치 보정용)
+  const LEFT_RATIO = { x: LEFT_STD.x / ORIGIN_WIDTH, y: LEFT_STD.y / ORIGIN_HEIGHT };
+  const RIGHT_RATIO = { x: RIGHT_STD.x / ORIGIN_WIDTH, y: RIGHT_STD.y / ORIGIN_HEIGHT };
 
-  interface Pos {
+  type Pos = {
     x: number;
     y: number;
-  }
-
-  const LEFT_STD_POS: Pos = { x: 449, y: 295 };
-  const RIGHT_STD_POS: Pos = { x: 555, y: 292 };
-
-  const LEFT_RATIO_POS: Pos = {
-    x: LEFT_STD_POS.x / ORIGIN_WIDTH,
-    y: LEFT_STD_POS.y / ORIGIN_HEIGHT,
   };
 
-  const RIGHT_RATIO_POS: Pos = {
-    x: RIGHT_STD_POS.x / ORIGIN_WIDTH,
-    y: RIGHT_STD_POS.y / ORIGIN_HEIGHT,
-  };
-
-  const imgW: Ref<number> = ref(0);
-  const imgH: Ref<number> = ref(0);
-  const Ratio: Ref<number> = ref(1);
-  const containerWMargin: Ref<number> = ref(0);
-
+  const mascotImg = ref<HTMLImageElement | null>(null);
+  const ratio = ref(1);
   const leftPos = ref<Pos>({ x: 0, y: 0 });
   const rightPos = ref<Pos>({ x: 0, y: 0 });
 
-  let imgObserver: ResizeObserver | null = null;
-  let ContainerObserver: ResizeObserver | null = null;
+  let resizeObserver: ResizeObserver | null = null;
+  let rafId = 0;
+  let pendingMouse: Pos | null = null;
+  let prefersReducedMotion = false;
 
-  onMounted(() => {
-    if (bluenyangImg.value) {
-      imgObserver = new ResizeObserver((entries): void => {
-        const entry = entries[0];
-        if (entry) {
-          imgW.value = Math.floor(entry.contentRect.width);
-          imgH.value = Math.floor(entry.contentRect.height);
-          Ratio.value = imgW.value / ORIGIN_WIDTH;
+  function setRestPosition(imgW: number, imgH: number): void {
+    // 눈 초기 위치 보정 (이미지 아트에 맞춘 수작업 오프셋)
+    const leftOffsetX = 11 * ratio.value;
+    const leftOffsetY = 2 * ratio.value;
+    const rightOffsetX = 12 * ratio.value;
+    const rightOffsetY = 1 * ratio.value;
 
-          // 눈 초기 위치 보정 + 이미지 크기에 따라 위치 조정
-          const leftX = 11 * Ratio.value;
-          const leftY = 2 * Ratio.value;
-          const rightX = 12 * Ratio.value;
-          const rightY = 1 * Ratio.value;
+    leftPos.value = {
+      x: LEFT_RATIO.x * imgW + leftOffsetX,
+      y: LEFT_RATIO.y * imgH - leftOffsetY,
+    };
+    rightPos.value = {
+      x: RIGHT_RATIO.x * imgW - rightOffsetX,
+      y: RIGHT_RATIO.y * imgH - rightOffsetY,
+    };
+  }
 
-          leftPos.value = {
-            x: LEFT_RATIO_POS.x * imgW.value + leftX, //11,
-            y: LEFT_RATIO_POS.y * imgH.value - leftY, //2,
-          };
-
-          rightPos.value = {
-            x: RIGHT_RATIO_POS.x * imgW.value - rightX, //12,
-            y: RIGHT_RATIO_POS.y * imgH.value - rightY, //1,
-          };
-        }
-      });
-
-      ContainerObserver = new ResizeObserver((entries): void => {
-        const entry = entries[0];
-        if (entry) {
-          const containerW = entry.contentRect.width;
-          containerWMargin.value = (containerW - imgW.value) / 2;
-          console.log(
-            `Container Width: ${containerW}, ImgWidth: ${imgW.value}, Margin: ${containerWMargin.value}`,
-          );
-        }
-      });
-
-      imgObserver.observe(bluenyangImg.value);
-      if (ImgContainer.value) {
-        ContainerObserver.observe(ImgContainer.value);
-      }
-    }
-  });
-
-  onUnmounted((): void => {
-    if (imgObserver) {
-      imgObserver.disconnect();
-    }
-    if (ContainerObserver) {
-      ContainerObserver.disconnect();
-    }
-  });
-
-  function getEyeDynamicPos(mousePos: Pos): void {
-    let radius: number = 10;
-
-    // 창의 크기와 이미지 크기에 따라 반지름을 조정
-    if (imgW.value > 0 && imgH.value > 0) {
-      // 이미지의 가로 세로 비율을 유지하면서 반지름을 조정
-      radius = Math.min(imgW.value, imgH.value) * 0.02;
+  function updateEyes(mouse: Pos): void {
+    const img = mascotImg.value;
+    if (!img) {
+      return;
     }
 
-    // left x = cos(ansgle) * radius
-    // left y = sin(angle) * radius
-    const angleL: number = Math.atan2(
-      mousePos.y - LEFT_STD_POS.y * Ratio.value,
-      mousePos.x - LEFT_STD_POS.x * Ratio.value,
-    );
+    const rect = img.getBoundingClientRect();
+    const localX = mouse.x - rect.left;
+    const localY = mouse.y - rect.top;
+    const radius = Math.min(rect.width, rect.height) * 0.02;
 
-    leftPos.value.x = LEFT_STD_POS.x * Ratio.value + Math.cos(angleL) * radius;
-    leftPos.value.y = LEFT_STD_POS.y * Ratio.value + Math.sin(angleL) * radius;
+    const leftOrigin = {
+      x: LEFT_STD.x * ratio.value,
+      y: LEFT_STD.y * ratio.value,
+    };
+    const rightOrigin = {
+      x: RIGHT_STD.x * ratio.value,
+      y: RIGHT_STD.y * ratio.value,
+    };
 
-    // right x = cos(ansgle) * radius
-    // right y = sin(angle) * radius
-    const angleR: number = Math.atan2(
-      mousePos.y - RIGHT_STD_POS.y * Ratio.value,
-      mousePos.x - RIGHT_STD_POS.x * Ratio.value,
-    );
+    const angleL = Math.atan2(localY - leftOrigin.y, localX - leftOrigin.x);
+    leftPos.value = {
+      x: leftOrigin.x + Math.cos(angleL) * radius,
+      y: leftOrigin.y + Math.sin(angleL) * radius,
+    };
 
-    rightPos.value.x = RIGHT_STD_POS.x * Ratio.value + Math.cos(angleR) * radius;
-    rightPos.value.y = RIGHT_STD_POS.y * Ratio.value + Math.sin(angleR) * radius;
+    const angleR = Math.atan2(localY - rightOrigin.y, localX - rightOrigin.x);
+    rightPos.value = {
+      x: rightOrigin.x + Math.cos(angleR) * radius,
+      y: rightOrigin.y + Math.sin(angleR) * radius,
+    };
+  }
+
+  function tick(): void {
+    rafId = 0;
+    if (pendingMouse) {
+      updateEyes(pendingMouse);
+      pendingMouse = null;
+    }
   }
 
   function handleMouseMove(event: MouseEvent): void {
-    // 이미지는 80% 크기이므로 좌측 여백을 보정
-    const xMargin = document.body.clientWidth * 0.1 + containerWMargin.value;
-    // 상단 여백을 보정(padding-top: 16 * --spacing(tailwind) = 4rem = 64px)
-    const yMargin = 64 + 20;
+    if (prefersReducedMotion) {
+      return;
+    }
 
-    // 스크롤 위치를 고려하여 마우스 위치를 계산
-    const mousePos: Pos = {
-      x: event.clientX - xMargin + window.scrollX,
-      y: event.clientY - yMargin + window.scrollY,
-    };
-
-    getEyeDynamicPos(mousePos);
+    pendingMouse = { x: event.clientX, y: event.clientY };
+    if (!rafId) {
+      rafId = requestAnimationFrame(tick);
+    }
   }
 
-  document.addEventListener('mousemove', handleMouseMove);
+  onMounted(() => {
+    prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (mascotImg.value) {
+      resizeObserver = new ResizeObserver((entries) => {
+        const entry = entries[0];
+        if (!entry) {
+          return;
+        }
+
+        ratio.value = entry.contentRect.width / ORIGIN_WIDTH;
+        setRestPosition(entry.contentRect.width, entry.contentRect.height);
+      });
+      resizeObserver.observe(mascotImg.value);
+    }
+
+    if (!prefersReducedMotion) {
+      document.addEventListener('mousemove', handleMouseMove);
+    }
+  });
+
+  onUnmounted(() => {
+    resizeObserver?.disconnect();
+    document.removeEventListener('mousemove', handleMouseMove);
+    if (rafId) {
+      cancelAnimationFrame(rafId);
+    }
+  });
 </script>
 
 <template>
-  <div class="relative mx-auto flex w-4/5 items-center justify-center pt-16" ref="ImgContainer">
-    <div class="relative flex w-fit bg-white">
+  <section class="mx-auto flex max-w-6xl flex-col items-center px-4 pt-28 pb-8 md:px-6">
+    <div class="relative w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-sm">
       <img
+        ref="mascotImg"
         :src="BlueNyang"
-        ref="bluenyangImg"
         alt="BlueNyang"
-        loading="lazy"
+        class="block h-auto w-full"
         decoding="async"
-        data-slot="icon"
       />
       <img
         :src="LeftEye"
-        class="absolute top-0 left-0"
+        alt=""
+        class="pointer-events-none absolute top-0 left-0"
         :style="{
-          width: `${Ratio * 75}px`,
-          height: `${Ratio * 70}px`,
+          width: `${ratio * 75}px`,
+          height: `${ratio * 70}px`,
           transform: `translate(${leftPos.x}px, ${leftPos.y}px)`,
         }"
-        loading="lazy"
         decoding="async"
       />
       <img
         :src="RightEye"
-        class="absolute top-0 left-0"
+        alt=""
+        class="pointer-events-none absolute top-0 left-0"
         :style="{
-          width: `${Ratio * 75}px`,
-          height: `${Ratio * 70}px`,
+          width: `${ratio * 75}px`,
+          height: `${ratio * 70}px`,
           transform: `translate(${rightPos.x}px, ${rightPos.y}px)`,
         }"
-        loading="lazy"
         decoding="async"
       />
     </div>
-  </div>
+  </section>
 </template>
