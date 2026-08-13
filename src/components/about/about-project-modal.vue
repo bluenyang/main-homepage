@@ -54,7 +54,7 @@
       ></button>
       <div
         :class="glassPanelClass"
-        class="relative z-10 max-h-[85vh] w-full max-w-2xl overflow-y-auto p-6 shadow-xl md:p-8"
+        class="scrollbar-thumb-border relative z-10 max-h-[85vh] w-full max-w-2xl scrollbar-thin scrollbar-track-transparent overflow-y-auto p-6 shadow-xl md:p-8"
       >
         <div class="flex items-start justify-between gap-4">
           <div>

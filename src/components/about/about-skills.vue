@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { aboutSkills, glassPanelClass } from '@/data/about-content';
+  import { Icon } from '@iconify/vue';
 </script>
 
 <template>
@@ -14,10 +15,14 @@
           <ul class="mt-3 flex flex-wrap gap-2">
             <li
               v-for="item in group.items"
-              :key="item"
-              class="border-border bg-background/40 text-foreground rounded-full border px-3 py-1.5 font-sans text-sm"
+              :key="item.name"
+              class="group border-border bg-background/40 text-foreground hover:border-accent/60 hover:bg-accent/10 flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-sans text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
             >
-              {{ item }}
+              <Icon
+                :icon="item.icon"
+                class="size-4 shrink-0 transition-transform duration-200 group-hover:scale-110 group-hover:rotate-6"
+              />
+              {{ item.name }}
             </li>
           </ul>
         </div>

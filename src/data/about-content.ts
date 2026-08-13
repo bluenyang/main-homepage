@@ -3,9 +3,15 @@ export type AboutLink = {
   href: string;
 };
 
+export type SkillItem = {
+  name: string;
+  /** Iconify icon name, e.g. `devicon:java` */
+  icon: string;
+};
+
 export type SkillGroup = {
   group: string;
-  items: readonly string[];
+  items: readonly SkillItem[];
 };
 
 export type ProjectItem = {
@@ -127,31 +133,48 @@ export const aboutEducations = [
 export const aboutSkills = [
   {
     group: 'Backend',
-    items: ['Java', 'Kotlin', 'Spring Boot', 'Go', 'Node.js (Nitro)'],
+    items: [
+      { name: 'Java', icon: 'devicon:java' },
+      { name: 'Kotlin', icon: 'devicon:kotlin' },
+      { name: 'Spring Boot', icon: 'devicon:spring' },
+      { name: 'Go', icon: 'devicon:go' },
+      { name: 'Node.js (Nitro)', icon: 'devicon:nodejs' },
+    ],
   },
   {
     group: 'Infra / Data',
     items: [
-      'PostgreSQL',
-      'Redis',
-      'MinIO',
-      'Docker Compose',
-      'Traefik',
-      'Authentik (OIDC)',
-      'Cloudflare',
+      { name: 'PostgreSQL', icon: 'devicon:postgresql' },
+      { name: 'Redis', icon: 'devicon:redis' },
+      { name: 'MinIO', icon: 'simple-icons:minio' },
+      { name: 'Docker Compose', icon: 'devicon:docker' },
+      { name: 'Traefik', icon: 'devicon:traefikproxy' },
+      { name: 'Authentik (OIDC)', icon: 'simple-icons:authentik' },
+      { name: 'Cloudflare', icon: 'devicon:cloudflare' },
     ],
   },
   {
     group: 'Desktop / TS',
-    items: ['TypeScript', 'Electron'],
+    items: [
+      { name: 'TypeScript', icon: 'devicon:typescript' },
+      { name: 'Electron', icon: 'devicon:electron' },
+    ],
   },
   {
     group: 'Frontend (보조)',
-    items: ['Vue/Nuxt', 'React'],
+    items: [
+      { name: 'Vue/Nuxt', icon: 'devicon:vuejs' },
+      { name: 'React', icon: 'devicon:react' },
+    ],
   },
   {
     group: 'Delivery',
-    items: ['GitHub Actions', 'GHCR', 'AWS', 'Netlify'],
+    items: [
+      { name: 'GitHub Actions', icon: 'devicon:githubactions' },
+      { name: 'GHCR', icon: 'devicon:github' },
+      { name: 'AWS', icon: 'devicon:amazonwebservices' },
+      { name: 'Netlify', icon: 'devicon:netlify' },
+    ],
   },
 ] as const satisfies readonly SkillGroup[];
 
