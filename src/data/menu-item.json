@@ -11,7 +11,7 @@
   },
   {
     "name": "Blog",
-    "path": "https://bluenyang-dev.tistory.com/",
+    "path": "https://blog.bluenyang.kr/",
     "isBlank": true
   },
   {
@@ -38,7 +38,7 @@
   },
   {
     "name": "Downloads",
-    "path": "https://ocis.croffledev.kr/s/hTHvjhkcEGwNevm",
+    "path": "https://dl.bluenyang.kr/public/",
     "isBlank": true
   },
   {

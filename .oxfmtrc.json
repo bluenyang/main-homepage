@@ -1,0 +1,29 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "arrowParens": "always",
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "endOfLine": "lf",
+  "printWidth": 100,
+  "semi": true,
+  "singleAttributePerLine": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "all",
+  "useTabs": false,
+  "vueIndentScriptAndStyle": true,
+  "sortPackageJson": false,
+  "sortTailwindcss": true,
+  "ignorePatterns": [
+    "node_modules",
+    "dist",
+    "coverage",
+    "build",
+    ".stversions",
+    "package.json",
+    "yarn.lock",
+    ".turbo",
+    ".oxlintrc.json",
+    ".oxfmtrc.json"
+  ]
+}

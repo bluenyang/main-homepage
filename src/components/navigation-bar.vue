@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import SidebarToggler from './SidebarToggler.vue';
-import NavMenu from './NavMenu.vue';
-import ThemeToggler from './ThemeToggler.vue';
+import SidebarToggler from './sidebar-toggler.vue';
+import NavigationMenu from './navigation-menu.vue';
+import ThemeToggler from './theme-toggler.vue';
 </script>
 
 <template>
@@ -29,7 +29,7 @@ import ThemeToggler from './ThemeToggler.vue';
       </div>
 
       <!-- Center: Menu -->
-      <NavMenu />
+      <NavigationMenu />
 
       <!-- Right Side: ThemeToggler -->
       <ThemeToggler />

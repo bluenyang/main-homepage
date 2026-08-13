@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MenuList from '@/data/Menu.json';
-import { useSidebar, type SidebarToggle } from '@/stores/useSidebar';
+import menuList from '@/data/menu-item.json';
+import { useSidebar, type SidebarToggle } from '@/stores/use-sidebar';
 import { ref } from 'vue';
 
 type Item = {
@@ -13,7 +13,7 @@ type Item = {
 const { isOpen, toggleSidebar }: SidebarToggle = useSidebar();
 const openedMenu = ref<string | null>(null);
 
-const menuItems = MenuList as Item[];
+const menuItems = menuList as Item[];
 
 const toggleMenu = (name: string) => {
   if (openedMenu.value === name) {
@@ -61,7 +61,7 @@ const toggleMenu = (name: string) => {
         </svg>
       </button>
     </div>
-    <div class="flex flex-grow">
+    <div class="flex grow">
       <ul
         class="flex w-full flex-col items-center space-y-4 font-[Sour_Gummy] text-lg"
       >
