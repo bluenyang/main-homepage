@@ -54,10 +54,17 @@ export type AboutContact = {
   linkedin: string;
 };
 
-export type AboutSectionId = 'intro' | 'skills' | 'projects' | 'experiences' | 'contact';
+export type AboutSectionId =
+  | 'intro'
+  | 'educations'
+  | 'skills'
+  | 'projects'
+  | 'experiences'
+  | 'contact';
 
 export const aboutSections = [
   { id: 'intro', label: 'Intro' },
+  { id: 'educations', label: 'Educations' },
   { id: 'skills', label: 'Skills' },
   { id: 'projects', label: 'Projects' },
   { id: 'experiences', label: 'Experiences' },
@@ -81,6 +88,41 @@ export const aboutIntro = {
     { label: 'Contact', href: 'mailto:me@bluenyang.kr' },
   ],
 } as const satisfies AboutIntro;
+
+export type EducationItem = ExperienceItem;
+
+export const aboutEducations = [
+  {
+    id: 'university',
+    title: '컴퓨터소프트웨어공학 학사',
+    org: '원광대학교',
+    period: '2020.03 – 2026.02',
+    role: '학사',
+    teaser: '강의·실습을 정리하고 GitHub·기술 블로그에 이슈를 기록하는 학습 습관',
+    bullets: [
+      '학기/과목별로 학습 자료를 정리하고 관련 코드는 GitHub에 기록',
+      '특이 이슈는 기술 블로그에 정리',
+    ],
+    links: [{ label: 'Blog', href: 'https://blog.bluenyang.kr' }],
+  },
+  {
+    id: 'academy',
+    title: 'JAVA 풀스택 개발자 아카데미',
+    org: '멀티캠퍼스 · [현대이지웰]',
+    period: '2025.07 – 2025.12',
+    role: '수료 · A11yMARKET 팀장',
+    teaser: '접근성 중개 쇼핑몰을 팀장으로 수행, 과정 프로젝트 최우수',
+    bullets: [
+      '4인 팀 팀장·개발 리드로 Spring Boot 기반 A11yMARKET 설계·구현',
+      '도메인/인증/CI·CD·QA runner까지 서버·인프라를 주도',
+      '과정 프로젝트 성과 최우수 평가 (2025.12)',
+    ],
+    links: [
+      { label: 'A11yMARKET Server', href: 'https://github.com/gscd-dev/a11y-market-server' },
+      { label: 'Demo', href: 'https://www.youtube.com/watch?v=SUjhHUoBB_Y' },
+    ],
+  },
+] satisfies readonly EducationItem[];
 
 export const aboutSkills = [
   {
@@ -266,23 +308,6 @@ export const aboutProjects = [
 ] satisfies readonly ProjectItem[];
 
 export const aboutExperiences = [
-  {
-    id: 'multicampus',
-    title: 'JAVA 풀스택 개발자 아카데미',
-    org: '멀티캠퍼스 · [현대이지웰]',
-    period: '2025.07 – 2025.12',
-    role: '수료 · A11yMARKET 팀장',
-    teaser: '접근성 중개 쇼핑몰을 팀장으로 수행, 과정 프로젝트 최우수',
-    bullets: [
-      '4인 팀 팀장·개발 리드로 Spring Boot 기반 A11yMARKET 설계·구현',
-      '도메인/인증/CI·CD·QA runner까지 서버·인프라를 주도',
-      '과정 프로젝트 성과 최우수 평가 (2025.12)',
-    ],
-    links: [
-      { label: 'A11yMARKET Server', href: 'https://github.com/gscd-dev/a11y-market-server' },
-      { label: 'Demo', href: 'https://www.youtube.com/watch?v=SUjhHUoBB_Y' },
-    ],
-  },
   {
     id: 'croffle-dev',
     title: 'Croffle Dev.',
