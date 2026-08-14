@@ -86,12 +86,12 @@ export const aboutIntro = {
   // profile.md Backend 한줄
   subline:
     'Spring Boot·Go·PostgreSQL과 Docker 기반 홈랩 운영 경험이 있는 백엔드 지향 개발자입니다.',
-  body: 'PostgreSQL 및 다양한 백엔드 언어를 활용하여 데이터베이스 통합, 자동화된 배포 파이프라인 구축 등 실전 경험을 쌓았습니다. 신속한 적응력과 문제 해결 역량을 바탕으로, 대용량 데이터 환경에서의 효율적 데이터 처리와 품질 향상에 기여할 수 있습니다.',
+  body: 'PostgreSQL 통합, OIDC 기반 인증, CI/CD 파이프라인 구축 등을 직접 설계하고 운영하며 실전 경험을 쌓았습니다. 새로운 스택에 빠르게 적응하며, 접근성 중개 쇼핑몰부터 확장형 데스크톱 앱, 개인 홈랩 인프라까지 백엔드와 운영 전반에 걸쳐 문제를 해결해왔습니다.',
   ctas: [
     { label: 'GitHub', href: 'https://github.com/bluenyang' },
     { label: 'Blog', href: 'https://blog.bluenyang.kr' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/gyutae-ahn-35a860366' },
-    { label: 'Contact', href: 'mailto:me@bluenyang.kr' },
+    { label: 'Contact', href: 'mailto:contact@bluenyang.kr' },
   ],
 } as const satisfies AboutIntro;
 
