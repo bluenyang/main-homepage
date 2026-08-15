@@ -57,23 +57,31 @@
         class="scrollbar-thumb-border relative z-10 max-h-[85vh] w-full max-w-2xl scrollbar-thin scrollbar-track-transparent overflow-y-auto p-6 shadow-xl md:p-8"
       >
         <div class="flex items-start justify-between gap-4">
-          <div>
-            <div class="flex flex-wrap items-center gap-2">
-              <h3
-                :id="`project-modal-${project.id}`"
-                class="text-foreground font-sans text-2xl font-semibold"
-              >
-                {{ project.title }}
-              </h3>
-              <span
-                v-if="project.badge"
-                class="bg-accent/15 text-accent rounded-full px-2.5 py-0.5 font-sans text-xs"
-              >
-                {{ project.badge }}
-              </span>
+          <div class="flex min-w-0 items-start gap-4">
+            <img
+              v-if="project.logo"
+              :src="project.logo"
+              :alt="`${project.title} logo`"
+              class="border-border/60 size-14 shrink-0 rounded-xl border object-cover"
+            />
+            <div class="min-w-0">
+              <div class="flex flex-wrap items-center gap-2">
+                <h3
+                  :id="`project-modal-${project.id}`"
+                  class="text-foreground font-sans text-2xl font-semibold"
+                >
+                  {{ project.title }}
+                </h3>
+                <span
+                  v-if="project.badge"
+                  class="bg-accent/15 text-accent rounded-full px-2.5 py-0.5 font-sans text-xs"
+                >
+                  {{ project.badge }}
+                </span>
+              </div>
+              <p class="text-muted mt-1 font-sans text-sm">{{ project.period }} · {{ project.role }}</p>
+              <p class="text-foreground/80 mt-2 font-sans text-sm">{{ project.teaser }}</p>
             </div>
-            <p class="text-muted mt-1 font-sans text-sm">{{ project.role }}</p>
-            <p class="text-foreground/80 mt-2 font-sans text-sm">{{ project.teaser }}</p>
           </div>
           <button
             type="button"

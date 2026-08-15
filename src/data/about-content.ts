@@ -1,3 +1,8 @@
+import croffleLogo from '@/assets/projects/croffle.png';
+import myBlogLogo from '@/assets/projects/my-blog.png';
+import porgLogo from '@/assets/projects/porg.png';
+import thedayThePlaceLogo from '@/assets/projects/theday-theplace.png';
+
 export type AboutLink = {
   label: string;
   href: string;
@@ -18,6 +23,10 @@ export type ProjectItem = {
   id: string;
   title: string;
   role: string;
+  /** Display period, also used to sort the list (most recent first) */
+  period: string;
+  /** Imported logo image, omitted for text-only brands */
+  logo?: string;
   /** Card one-liner */
   teaser: string;
   techStack: readonly string[];
@@ -97,20 +106,8 @@ export const aboutIntro = {
 
 export type EducationItem = ExperienceItem;
 
+// 시작일 최신순 배치
 export const aboutEducations = [
-  {
-    id: 'university',
-    title: '컴퓨터소프트웨어공학 학사',
-    org: '원광대학교',
-    period: '2020.03 – 2026.02',
-    role: '학사',
-    teaser: '강의·실습을 정리하고 GitHub·기술 블로그에 이슈를 기록하는 학습 습관',
-    bullets: [
-      '학기/과목별로 학습 자료를 정리하고 관련 코드는 GitHub에 기록',
-      '특이 이슈는 기술 블로그에 정리',
-    ],
-    links: [{ label: 'Blog', href: 'https://blog.bluenyang.kr' }],
-  },
   {
     id: 'academy',
     title: 'JAVA 풀스택 개발자 아카데미',
@@ -127,6 +124,19 @@ export const aboutEducations = [
       { label: 'A11yMARKET Server', href: 'https://github.com/gscd-dev/a11y-market-server' },
       { label: 'Demo', href: 'https://www.youtube.com/watch?v=SUjhHUoBB_Y' },
     ],
+  },
+  {
+    id: 'university',
+    title: '컴퓨터소프트웨어공학 학사',
+    org: '원광대학교',
+    period: '2020.03 – 2026.02',
+    role: '학사',
+    teaser: '강의·실습을 정리하고 GitHub·기술 블로그에 이슈를 기록하는 학습 습관',
+    bullets: [
+      '학기/과목별로 학습 자료를 정리하고 관련 코드는 GitHub에 기록',
+      '특이 이슈는 기술 블로그에 정리',
+    ],
+    links: [{ label: 'Blog', href: 'https://blog.bluenyang.kr' }],
   },
 ] satisfies readonly EducationItem[];
 
@@ -178,11 +188,125 @@ export const aboutSkills = [
   },
 ] as const satisfies readonly SkillGroup[];
 
+// 진행 중(현재) 프로젝트를 시작일 최신순으로, 그다음 종료된 프로젝트를 종료일 최신순으로 배치
 export const aboutProjects = [
+  {
+    id: 'my-blog',
+    title: 'my-blog',
+    role: 'Solo · Nuxt 4 SSR · Nitro BFF',
+    period: '2026.07 – 현재',
+    logo: myBlogLogo,
+    teaser: 'blog.bluenyang.kr · Directus GraphQL + Netlify Edge 운영 블로그',
+    techStack: [
+      'Nuxt 4',
+      'Vue 3',
+      'Nitro BFF',
+      'Directus GraphQL',
+      'Tailwind CSS v4',
+      'Redis',
+      'Netlify Edge',
+      'Yarn Berry',
+    ],
+    features: [
+      '브라우저/SSR → composables → Nitro `/api/*` → Directus GraphQL BFF',
+      '페이지별 GraphQL 쿼리로 CMS 호출을 최초 2회·이후 1회로 축소',
+      'RSS·sitemap·slug 생성(directus-extensions)과 Redis 캐시 무효화',
+      '멀티 사이트용 스키마·권한·공유 Nuxt 패키지/CLI npm 배포',
+    ],
+    challenges: [
+      'Tistory·정적 md 빌드 한계 → Nuxt SSR + Directus로 이전, 구 URL 리다이렉트로 유입 유지',
+      '멀티 블로그 CMS 통합 → 스키마·권한·트리거로 서비스 간 콘텐츠 격리',
+      'Edge SSR에서 본문 미포함 → useRequestFetch·slug 정규화로 GSC 색인 정상화',
+    ],
+    learnings: [
+      'BFF에서 쿼리 빌드·데이터 가공을 맡아 프론트 composable을 단순화',
+      '공개 콘텐츠는 OIDC 없이, 관리 대시보드에서 CMS를 연동하는 운영 분리',
+      '티스토리 이전 포함 포스트 48편 운영 중',
+    ],
+    links: [
+      { label: 'Live', href: 'https://blog.bluenyang.kr' },
+      { label: 'Blog Repo', href: 'https://github.com/bluenyang/my-blog' },
+      { label: 'Packaged Repo', href: 'https://github.com/team-croffle/blogs' },
+      {
+        label: 'Directus ext.',
+        href: 'https://github.com/bluenyang/directus-extensions',
+      },
+    ],
+  },
+  {
+    id: 'porg',
+    title: 'porg',
+    role: 'Solo · Go',
+    period: '2026.06 – 현재',
+    logo: porgLogo,
+    teaser: 'PostgreSQL wire protocol부터 구현하는 실험용 DBMS',
+    techStack: ['Go 1.26+', 'PostgreSQL FE/BE wire protocol', 'TCP :5432'],
+    features: [
+      '완성된 Postgres 대신 FE/BE 계약을 직접 구현하는 학습·실험용 엔진',
+      'cmd/porg 진입점과 internal/wire 프로토콜 계층 분리',
+      '로드맵: Wire → 인메모리 → 영속성 → 타입/SQL 호환',
+    ],
+    challenges: [
+      '클라이언트가 기대하는 Startup 핸드셰이크를 모름 → StartupMessage 파싱으로 user/database 확인',
+    ],
+    learnings: [
+      'SQL/스토리지보다 wire protocol을 먼저 두면 기존 클라이언트와 같은 계약으로 붙일 수 있음',
+      '단계마다 “쓸 수 있는 상태”를 정의하는 로드맵이 실험 범위를 통제함',
+      '다음 마일스톤: AuthenticationOk · ReadyForQuery',
+    ],
+    links: [{ label: 'Repo', href: 'https://github.com/bluenyang/porg' }],
+    badge: '진행 중',
+  },
+  {
+    id: 'croffle',
+    title: 'croffle',
+    role: '팀장 · 아키텍트 · 메인 프로세스 리드 · 5인',
+    period: '2024.09 – 현재',
+    logo: croffleLogo,
+    teaser: '확장 가능한 Electron 생산성/일정 앱 · Release 6+ · 팀 실사용',
+    techStack: [
+      'Electron',
+      'Vue',
+      'TypeScript',
+      'sqlite3',
+      'Drizzle',
+      'Pinia',
+      'Tailwind CSS',
+      'shadcn-vue',
+      'pnpm monorepo',
+      'electron-updater',
+      'changeset',
+    ],
+    features: [
+      '메인/렌더러 타입 공유 IPC·Preload, OS 알림·HTTP 래핑 API',
+      'sqlite3 + Drizzle 로컬 DB와 확장용 이벤트 버스·리마인더 스케줄러',
+      'manifest 기반 확장: Vue 외 JS/React/Svelte 화면 플러그인 가능',
+      'GitHub Release·zip으로 확장 설치, electron-updater CI 배포',
+      '@croffledev/* 확장 CLI·types npm 배포',
+    ],
+    challenges: [
+      'WinUI 불안정·Linux 미지원 → Electron 재작성으로 Windows/macOS/Linux 지원',
+      '확장 스택이 Vue로 고정 → manifest로 렌더 엔드포인트·설정을 분리해 프레임워크 비의존',
+    ],
+    learnings: [
+      '프로세스 내 enum 이벤트 버스로 모듈 간 결합도를 낮추는 설계',
+      '플러그인이 메뉴·설정 영역을 할당받아 독립적으로 UI를 제어하는 구조',
+      'Release 6+, 팀 실사용·협업 툴 통합을 목표로 유지보수 중',
+    ],
+    links: [
+      { label: 'Repo', href: 'https://github.com/team-croffle/croffle' },
+      { label: 'Releases', href: 'https://github.com/team-croffle/croffle/releases' },
+      {
+        label: 'README',
+        href: 'https://github.com/team-croffle/croffle/blob/master/README.ko.md',
+      },
+    ],
+  },
   {
     id: 'a11ymarket',
     title: 'A11yMARKET',
-    role: '팀장 · 개발 리드 · 4인 · 2025.10–2025.12',
+    role: '팀장 · 개발 리드 · 4인',
+    period: '2025.10 – 2025.12',
     teaser: '웹 접근성·AI로 정보 격차를 줄이는 중개 쇼핑몰 · 멀티캠퍼스 최우수',
     techStack: [
       'Spring Boot (Java/Kotlin)',
@@ -224,109 +348,31 @@ export const aboutProjects = [
     ],
   },
   {
-    id: 'croffle',
-    title: 'croffle',
-    role: '팀장 · 아키텍트 · 메인 프로세스 리드 · 5인',
-    teaser: '확장 가능한 Electron 생산성/일정 앱 · Release 6+ · 팀 실사용',
-    techStack: [
-      'Electron',
-      'Vue',
-      'TypeScript',
-      'sqlite3',
-      'Drizzle',
-      'Pinia',
-      'Tailwind CSS',
-      'shadcn-vue',
-      'pnpm monorepo',
-      'electron-updater',
-      'changeset',
-    ],
+    id: 'theday-theplace',
+    title: '그 날, 그 곳',
+    role: '팀원 · 인프라·크롤러 담당 · 3인',
+    period: '2025.05 – 2025.09',
+    logo: thedayThePlaceLogo,
+    teaser: '전국 박물관·전시 정보를 지도에서 탐색 · 2025 관광데이터 활용 공모전 출품',
+    techStack: ['Go', 'goquery', 'Gemini API', 'SvelteKit', 'Supabase', 'Kakao Map API', 'Netlify'],
     features: [
-      '메인/렌더러 타입 공유 IPC·Preload, OS 알림·HTTP 래핑 API',
-      'sqlite3 + Drizzle 로컬 DB와 확장용 이벤트 버스·리마인더 스케줄러',
-      'manifest 기반 확장: Vue 외 JS/React/Svelte 화면 플러그인 가능',
-      'GitHub Release·zip으로 확장 설치, electron-updater CI 배포',
-      '@croffledev/* 확장 CLI·types npm 배포',
+      'Go worker pool(goroutine+channel)로 여러 박물관·전시 사이트를 병렬 크롤링',
+      '비정형 텍스트는 Gemini API로 정리해 표준 Exhibition 스키마로 변환',
+      'Supabase를 크롤러-웹 공용 저장소로 구성해 별도 API 서버 없이 데이터 파이프라인 구축',
+      '카카오맵 기반 검색 및 마커 클릭 시 상세 페이지 이동',
     ],
     challenges: [
-      'WinUI 불안정·Linux 미지원 → Electron 재작성으로 Windows/macOS/Linux 지원',
-      '확장 스택이 Vue로 고정 → manifest로 렌더 엔드포인트·설정을 분리해 프레임워크 비의존',
+      '기관마다 다른 페이지 구조 → worker pool 병렬 크롤링 + Gemini 파싱으로 표준화',
+      '크롤러·웹이 분리된 서비스 → Supabase 공용 저장소로 API 서버 없이 데이터 공유',
     ],
     learnings: [
-      '프로세스 내 enum 이벤트 버스로 모듈 간 결합도를 낮추는 설계',
-      '플러그인이 메뉴·설정 영역을 할당받아 독립적으로 UI를 제어하는 구조',
-      'Release 6+, 팀 실사용·협업 툴 통합을 목표로 유지보수 중',
+      '규칙 기반 파싱의 한계를 LLM 파싱으로 보완하는 하이브리드 수집 전략',
+      '2025 관광데이터 활용 공모전 출품 (본선 진출 실패), 현재 수정 계획 중',
     ],
     links: [
-      { label: 'Repo', href: 'https://github.com/team-croffle/croffle' },
-      { label: 'Releases', href: 'https://github.com/team-croffle/croffle/releases' },
-      {
-        label: 'README',
-        href: 'https://github.com/team-croffle/croffle/blob/master/README.ko.md',
-      },
+      { label: 'Web', href: 'https://github.com/rhfrhftkxtkx/theDay-thePlace' },
+      { label: 'Cron', href: 'https://github.com/rhfrhftkxtkx/Cron-Server' },
     ],
-  },
-  {
-    id: 'my-blog',
-    title: 'my-blog',
-    role: 'Solo · Nuxt 4 SSR · Nitro BFF · 2026.07–현재',
-    teaser: 'blog.bluenyang.kr · Directus GraphQL + Netlify Edge 운영 블로그',
-    techStack: [
-      'Nuxt 4',
-      'Vue 3',
-      'Nitro BFF',
-      'Directus GraphQL',
-      'Tailwind CSS v4',
-      'Redis',
-      'Netlify Edge',
-      'Yarn Berry',
-    ],
-    features: [
-      '브라우저/SSR → composables → Nitro `/api/*` → Directus GraphQL BFF',
-      '페이지별 GraphQL 쿼리로 CMS 호출을 최초 2회·이후 1회로 축소',
-      'RSS·sitemap·slug 생성(directus-extensions)과 Redis 캐시 무효화',
-      '멀티 사이트용 스키마·권한·공유 Nuxt 패키지/CLI npm 배포',
-    ],
-    challenges: [
-      'Tistory·정적 md 빌드 한계 → Nuxt SSR + Directus로 이전, 구 URL 리다이렉트로 유입 유지',
-      '멀티 블로그 CMS 통합 → 스키마·권한·트리거로 서비스 간 콘텐츠 격리',
-      'Edge SSR에서 본문 미포함 → useRequestFetch·slug 정규화로 GSC 색인 정상화',
-    ],
-    learnings: [
-      'BFF에서 쿼리 빌드·데이터 가공을 맡아 프론트 composable을 단순화',
-      '공개 콘텐츠는 OIDC 없이, 관리 대시보드에서 CMS를 연동하는 운영 분리',
-      '티스토리 이전 포함 포스트 48편 운영 중',
-    ],
-    links: [
-      { label: 'Live', href: 'https://blog.bluenyang.kr' },
-      { label: 'Repo', href: 'https://github.com/bluenyang/my-blog' },
-      {
-        label: 'Directus ext.',
-        href: 'https://github.com/bluenyang/directus-extensions',
-      },
-    ],
-  },
-  {
-    id: 'porg',
-    title: 'porg',
-    role: 'Solo · Go · 2026.06–현재',
-    teaser: 'PostgreSQL wire protocol부터 구현하는 실험용 DBMS',
-    techStack: ['Go 1.26+', 'PostgreSQL FE/BE wire protocol', 'TCP :5432'],
-    features: [
-      '완성된 Postgres 대신 FE/BE 계약을 직접 구현하는 학습·실험용 엔진',
-      'cmd/porg 진입점과 internal/wire 프로토콜 계층 분리',
-      '로드맵: Wire → 인메모리 → 영속성 → 타입/SQL 호환',
-    ],
-    challenges: [
-      '클라이언트가 기대하는 Startup 핸드셰이크를 모름 → StartupMessage 파싱으로 user/database 확인',
-    ],
-    learnings: [
-      'SQL/스토리지보다 wire protocol을 먼저 두면 기존 클라이언트와 같은 계약으로 붙일 수 있음',
-      '단계마다 “쓸 수 있는 상태”를 정의하는 로드맵이 실험 범위를 통제함',
-      '다음 마일스톤: AuthenticationOk · ReadyForQuery',
-    ],
-    links: [{ label: 'Repo', href: 'https://github.com/bluenyang/porg' }],
-    badge: '진행 중',
   },
 ] satisfies readonly ProjectItem[];
 
