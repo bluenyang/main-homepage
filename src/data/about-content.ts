@@ -192,6 +192,30 @@ export const aboutSkills = [
 // 진행 중(현재) 프로젝트를 시작일 최신순으로, 그다음 종료된 프로젝트를 종료일 최신순으로 배치
 export const aboutProjects = [
   {
+    id: 'porg',
+    title: 'porg',
+    role: 'Solo · Go',
+    period: '2026.06 – 현재',
+    logo: porgLogo,
+    teaser: 'PostgreSQL wire protocol부터 구현하는 실험용 DBMS',
+    techStack: ['Go 1.26+', 'PostgreSQL FE/BE wire protocol', 'TCP :5432'],
+    features: [
+      '완성된 Postgres 대신 FE/BE 계약을 직접 구현하는 학습·실험용 엔진',
+      'cmd/porg 진입점과 internal/wire 프로토콜 계층 분리',
+      '로드맵: Wire → 인메모리 → 영속성 → 타입/SQL 호환',
+    ],
+    challenges: [
+      '클라이언트가 기대하는 Startup 핸드셰이크를 모름 → StartupMessage 파싱으로 user/database 확인',
+    ],
+    learnings: [
+      'SQL/스토리지보다 wire protocol을 먼저 두면 기존 클라이언트와 같은 계약으로 붙일 수 있음',
+      '단계마다 “쓸 수 있는 상태”를 정의하는 로드맵이 실험 범위를 통제함',
+      '다음 마일스톤: AuthenticationOk · ReadyForQuery',
+    ],
+    links: [{ label: 'Repo', href: 'https://github.com/bluenyang/porg' }],
+    badge: '진행 중',
+  },
+  {
     id: 'my-blog',
     title: 'my-blog',
     role: 'Solo · Nuxt 4 SSR · Nitro BFF',
@@ -233,30 +257,7 @@ export const aboutProjects = [
         href: 'https://github.com/bluenyang/directus-extensions',
       },
     ],
-  },
-  {
-    id: 'porg',
-    title: 'porg',
-    role: 'Solo · Go',
-    period: '2026.06 – 현재',
-    logo: porgLogo,
-    teaser: 'PostgreSQL wire protocol부터 구현하는 실험용 DBMS',
-    techStack: ['Go 1.26+', 'PostgreSQL FE/BE wire protocol', 'TCP :5432'],
-    features: [
-      '완성된 Postgres 대신 FE/BE 계약을 직접 구현하는 학습·실험용 엔진',
-      'cmd/porg 진입점과 internal/wire 프로토콜 계층 분리',
-      '로드맵: Wire → 인메모리 → 영속성 → 타입/SQL 호환',
-    ],
-    challenges: [
-      '클라이언트가 기대하는 Startup 핸드셰이크를 모름 → StartupMessage 파싱으로 user/database 확인',
-    ],
-    learnings: [
-      'SQL/스토리지보다 wire protocol을 먼저 두면 기존 클라이언트와 같은 계약으로 붙일 수 있음',
-      '단계마다 “쓸 수 있는 상태”를 정의하는 로드맵이 실험 범위를 통제함',
-      '다음 마일스톤: AuthenticationOk · ReadyForQuery',
-    ],
-    links: [{ label: 'Repo', href: 'https://github.com/bluenyang/porg' }],
-    badge: '진행 중',
+    badge: '유지보수',
   },
   {
     id: 'croffle',
@@ -302,6 +303,7 @@ export const aboutProjects = [
         href: 'https://github.com/team-croffle/croffle/blob/master/README.ko.md',
       },
     ],
+    badge: '유지보수',
   },
   {
     id: 'a11ymarket',
