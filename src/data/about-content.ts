@@ -1,3 +1,4 @@
+import a11ymarketLogo from '@/assets/projects/a11ymarket.png';
 import croffleLogo from '@/assets/projects/croffle.png';
 import myBlogLogo from '@/assets/projects/my-blog.png';
 import porgLogo from '@/assets/projects/porg.png';
@@ -346,6 +347,7 @@ export const aboutProjects = [
       { label: 'Demo', href: 'https://www.youtube.com/watch?v=SUjhHUoBB_Y' },
       { label: 'Docs', href: 'https://github.com/gscd-dev/A11yMARKET-Resources' },
     ],
+    logo: a11ymarketLogo,
   },
   {
     id: 'theday-theplace',

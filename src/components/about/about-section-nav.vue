@@ -39,7 +39,7 @@
 
 <template>
   <ul
-    class="font-nav hidden max-w-[min(100%,28rem)] items-center gap-x-0.5 overflow-x-auto text-sm lg:flex"
+    class="font-nav hidden items-center gap-x-0.5 overflow-x-auto text-base lg:flex"
     aria-label="About sections"
   >
     <li v-for="section in aboutSections" :key="section.id">
